@@ -1,0 +1,60 @@
+        
+        //Icons Different for Different Presentation on the Map.
+        var icons = {
+            placed: {
+                icon: ''
+            },
+            Packed: {
+                icon: ''
+            },
+            Shipped: {
+                icon: ''
+            },
+            Delivered: {
+                icon: ''
+            },
+            undelivered:{
+                icon: ''
+            }
+         }
+        
+        <?php 
+         $connect= mysqli_connect('database-server.cil0lbnaent8.ap-south-1.rds.amazonaws.com','admin','Dash_Utkarsh','DOT') or die("Failed to Connect with Database ");
+          $sql = "SELECT * FROM Orders";
+         $result = mysqli_query($connect,$sql) or die("Query Unsuccessful.");
+                                                        
+        if(mysqli_num_rows($result)>0){
+            while($row = mysqli_fetch_assoc($result)){
+        ?>
+        
+        //Diiferent popup for different content
+        var contentString = {
+            content: <?php echo $row["C_Name"]; ?>,
+        }
+        
+        // popup for the content
+        var infoWindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        
+        marker.addListener('click', function(){
+           infoWindow.open(map, marker); 
+        });
+        
+        
+        // New Map
+        var map=new google.maps.Map(document.getElementById('map'), options);
+
+        
+       
+        
+        var marker = new google.maps.Marker({
+            position:{lat:<?php echo  $row["lat"]; ?>, lng:<?php echo  $row["lng"]; ?>},
+            icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            content: '<h1> Hello I am Here </h1>',
+            map: map,
+        });
+        
+<?php   } } ?>
+        
+  
